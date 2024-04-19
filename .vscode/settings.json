@@ -1,0 +1,15 @@
+{
+	"files.associations": {
+		"ft_printf.h": "c",
+		"get_next_line.h": "c",
+		"fcntl.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"libft.h": "c",
+		"mlx_int.h": "c",
+		"so_long.h": "c",
+		"stdbool.h": "c",
+		"mlx.h": "c"
+	}
+}
