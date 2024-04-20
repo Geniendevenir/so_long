@@ -6,7 +6,7 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 00:41:46 by allan             #+#    #+#             */
-/*   Updated: 2024/04/19 23:38:42 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/20 05:18:02 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ bool	check_doubles(char *line, t_map *map)
 		else if (line[i] == 'E')
 			map->exit = 1;
 		else if (line[i] == 'C')
+		{
 			map->coin++;
+			printf("la verite = %d/%d\n", map->got_coin, map->coin);
+		}
 		i++;
 	}
 	return (0);

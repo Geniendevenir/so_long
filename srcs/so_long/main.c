@@ -6,7 +6,7 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 03:34:03 by allan             #+#    #+#             */
-/*   Updated: 2024/04/20 00:49:21 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/20 05:36:11 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ int main(int argc, char **argv) {
 	if (init_mlx(&map) == 1)
 		return (write(1, "Mlx Init Error\n", 15));
 	/* printf("width = %d\nheight = %d\n", map.width, map.height); */
-	printf("coins = %d\n", map.coin);
+	int save_coin = map.coin;
 	display_map(&map);
+	map.coin = save_coin;
+	printf("init got_coin = %d\n", map.got_coin);
 	mlx_key_hook(map.window, handle_inputs, &map);
 	mlx_loop(map.connection);
 	free_map(&map);
