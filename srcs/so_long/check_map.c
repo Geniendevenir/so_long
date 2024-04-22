@@ -6,11 +6,40 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 00:41:46 by allan             #+#    #+#             */
-/*   Updated: 2024/04/20 05:18:02 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/22 03:30:27 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+bool	check_map(t_map *map)
+{
+	int		i;
+
+	i = 0;
+	map->character = 0;
+	map->exit = 0;
+	map->coin = 0;
+	while (map->data[0][++i])
+		map->width++;
+	if (map->width == map->height || map->width < 4 ||
+		map->height < 4 || map->width > 30 || map->height > 16)
+		return (1);
+	i = 0;
+	while (map->data[i])
+	{
+		if (check_oblong(map->data[i], map->width)) //check perfect size
+			return (1);
+		if (check_doubles(map->data[i], map)) //check doubles objects
+			return (1);
+		i++;
+	}
+	if (check_wall(map)) // check needed and possible walls
+		return (1);
+	if (map->character == 0 || map->exit == 0 || map->coin == 0)
+		return (1);
+	return (0);
+}
 
 bool	check_oblong(char *line, int width)
 {
@@ -28,10 +57,7 @@ bool	check_oblong(char *line, int width)
 		i++;
 	}
 	if (i - 1 != width)
-			{
-				printf("i = %d\n", i);
-				return (1);
-			}
+		return (1);
 	return (0);
 }
 
@@ -51,10 +77,7 @@ bool	check_doubles(char *line, t_map *map)
 		else if (line[i] == 'E')
 			map->exit = 1;
 		else if (line[i] == 'C')
-		{
 			map->coin++;
-			printf("la verite = %d/%d\n", map->got_coin, map->coin);
-		}
 		i++;
 	}
 	return (0);
@@ -71,7 +94,8 @@ bool	check_wall(t_map *map)
 	{
 		while (map->data[i][j])
 		{
-			if (map->data[i][0] != '1' || map->data[i][map->width - 1] != '1')
+			if (map->data[i][0] != '1' || 
+				map->data[i][map->width - 1] != '1')
 				return (1);
 			if ((i == 0 || i == map->height - 1) 
 				&& map->data[i][j] != '1' && map->data[i][j] != '\n')
@@ -84,32 +108,4 @@ bool	check_wall(t_map *map)
 	return (0);
 }
 
-bool	check_map(t_map *map)
-{
-	int		i;
-
-	i = 0;
-	map->character = 0;
-	map->exit = 0;
-	map->coin = 0;
-	while (map->data[0][++i])
-		map->width++;
-	if (map->width == map->height || map->width < 4 ||
-		map->height < 4 || map->width > 30 || map->height > 16) //check squarre and minimum size;
-		return (1);
-	i = 0;
-	while (map->data[i])
-	{
-		if (check_oblong(map->data[i], map->width)) //check perfect size
-			return (1);
-		if (check_doubles(map->data[i], map)) //check doubles objects
-			return (1);
-		i++;
-	}
-	if (check_wall(map)) // check needed and possible walls
-		return (1);
-	if (map->character == 0 || map->exit == 0 || map->coin == 0) //check minimum objects needed
-		return (1);
-	return (0);
-}
 

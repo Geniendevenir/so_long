@@ -17,9 +17,11 @@ RM					= rm -f
 # Source Files
 SO_LONG_DIR		=	$(SRC_DIR)so_long/main.c \
 					$(SRC_DIR)so_long/check_map.c \
-					$(SRC_DIR)so_long/init_and_free.c \
+					$(SRC_DIR)so_long/init_map.c \
 					$(SRC_DIR)so_long/hook_inputs.c \
-					$(SRC_DIR)so_long/display_map.c
+					$(SRC_DIR)so_long/display_map.c \
+					$(SRC_DIR)so_long/ft_free.c \
+					$(SRC_DIR)so_long/parsing.c
 
 # Concatenate all source files
 SRCS 				= $(SO_LONG_DIR)

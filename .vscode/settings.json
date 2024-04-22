@@ -10,6 +10,7 @@
 		"mlx_int.h": "c",
 		"so_long.h": "c",
 		"stdbool.h": "c",
-		"mlx.h": "c"
+		"mlx.h": "c",
+		"random": "c"
 	}
 }

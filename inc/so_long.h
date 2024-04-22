@@ -6,13 +6,13 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 14:25:25 by adebert           #+#    #+#             */
-/*   Updated: 2024/04/20 00:50:06 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/22 03:41:42 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PUSH_SWAP_H
+#ifndef SO_LONG_H
 
-# define PUSH_SWAP_H
+# define SO_LONG_H
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -48,6 +48,7 @@ typedef struct s_map
 	int		x;
 	int		y;
 	int		got_coin;
+	int		moove;
 	bool	exit;
 	int		coin;
 	int		img_size;
@@ -58,6 +59,8 @@ int		main(int argc, char **argv);
 
 //init
 t_map	init_map(char	*argv);
+void	init_value(t_map *map);
+t_map	create_map(t_map map, int fd);
 bool	init_mlx(t_map *map);
 
 //check map
@@ -65,20 +68,25 @@ bool	check_map(t_map *map);
 bool	check_oblong(char *line, int width);
 bool	check_doubles(char *line, t_map *map);
 bool	check_wall(t_map *map);
+void	parsing(t_map *map, int y, int x, char **tab, int *coin, bool *exit);
+void	check_path(t_map *map);
 
 //inputs
+int		close_window(t_map *map);
 int		handle_inputs(int keysym, t_map *map);
-void	moove_char(t_map *map, int x, int y);
-bool	is_wall_exit(t_map *map, int c);
+void	moove_player(t_map *map, int x, int y);
+bool	is_wall_exit(t_map *map, char *c);
 void	end_game(t_map *map, int c);
 
 //free
 void	free_map(t_map *map);
 void	free_mlx(t_map *map, bool type);
 void	free_textures(t_map *map, int index);
+void	free_tab(char **tab);
 
 //utils
-void	print_map(t_map *map);
+void	print_map(char **map);
+void	find_player(t_map *map);
 
 //display
 void	*check_textures(t_map *map, char *path, int index);
