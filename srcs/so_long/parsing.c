@@ -6,22 +6,20 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 14:40:05 by allan             #+#    #+#             */
-/*   Updated: 2024/04/22 03:32:55 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/22 18:17:47 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void  check_path(t_map *map)
+void	check_path(t_map *map)
 {
-	int		coin;
-	bool	map_exit;
 	char	**tab;
 	int		i;
 
 	i = 0;
-	coin = 0;
-	map_exit = 0;
+	map->got_coin = 0;
+	map->exit = 0;
 	tab = malloc(sizeof(char *) * (map->height + 1));
 	while (i < map->height)
 	{
@@ -30,39 +28,45 @@ void  check_path(t_map *map)
 	}
 	tab[i] = 0;
 	find_player(map);
-	parsing(map, map->y, map->x, tab, &coin, &map_exit);
-	if (coin != map->coin || map_exit == 0)
+	parsing(map, map->y, map->x, tab);
+	if (map->got_coin != map->coin || map->exit == 0)
 	{
-		ft_printf("Parsing Error\n");
-		free_tab(tab);
-		free_map(map);
+		ft_printf("Invalid Map - Parsing Error\n");
+		free_map(tab);
+		free_map(map->data);
 		exit (1);
 	}
-	free_tab(tab);
+	map->got_coin = 0;
+	free_map(tab);
 }
 
-void	parsing(t_map *map, int y, int x, char **tab, int *coin, bool *exit)
+void	parsing(t_map *map, int y, int x, char **tab)
 {
-	if (y < 0 || y >= map->height || x < 0 || x >= map->width || 
-	(tab[y][x] != '0' && tab[y][x] != 'C' && tab[y][x] != 'E' && 
-		tab[y][x] != 'P'))
+	if (y < 0 || y >= map->height || x < 0 || x >= map->width
+		|| (tab[y][x] != '0' && tab[y][x] != 'C'
+		&& tab[y][x] != 'E' && tab[y][x] != 'P'))
 		return ;
 	if (tab[y][x] == 'C')
-		*coin += 1;
+		map->got_coin += 1;
 	if (tab[y][x] == 'E')
-		*exit = 1;
+	{
+		map->exit = 1;
+		return ;
+	}
 	tab[y][x] = 'F';
-	parsing(map, y, x - 1, tab, coin, exit);
-	parsing(map, y, x + 1, tab, coin, exit);
-	parsing(map, y - 1, x, tab, coin, exit);
-	parsing(map, y + 1, x, tab, coin, exit);
+	parsing(map, y, x - 1, tab);
+	parsing(map, y, x + 1, tab);
+	parsing(map, y - 1, x, tab);
+	parsing(map, y + 1, x, tab);
 }
 
 void	find_player(t_map *map)
 {
-	int i = 0;
-	int j = 0;
+	int	i;
+	int	j;
 
+	i = 0;
+	j = 0;
 	while (map->data[i])
 	{
 		while (map->data[i][j])

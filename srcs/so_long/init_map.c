@@ -6,13 +6,13 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 00:43:39 by allan             #+#    #+#             */
-/*   Updated: 2024/04/22 03:46:44 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/22 18:36:34 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-# include "../libft/inc/libft.h"
-# include "../libft/inc/get_next_line.h"
+#include "../libft/inc/libft.h"
+#include "../libft/inc/get_next_line.h"
 #include <fcntl.h>
 
 t_map	init_map(char	*argv)
@@ -50,19 +50,25 @@ t_map	create_map(t_map map, int fd)
 	int		i;
 
 	i = 0;
-	while ((line = get_next_line(fd)) != NULL) 
+	while (1)
 	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
 		map.height++;
-        free(line);
-    }
+		free(line);
+	}
 	map.data = malloc(sizeof(char *) * (map.height + 1));
 	lseek(fd, 0, SEEK_SET);
-	while ((line = get_next_line(fd)) != NULL) 
+	while (i < map.height)
 	{
+		line = get_next_line(fd);
 		map.data[i] = ft_strdup(line);
-        free(line);
+		free(line);
 		i++;
-    }
+	}
+	line = get_next_line(fd);
+	free(line);
 	map.data[i] = NULL;
 	return (map);
 }
@@ -78,6 +84,3 @@ t_map	create_map(t_map map, int fd)
 		i++;
 	}
 } */
-
-
-

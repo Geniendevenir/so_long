@@ -6,26 +6,13 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 14:36:37 by allan             #+#    #+#             */
-/*   Updated: 2024/04/22 01:22:17 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/22 14:50:08 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	free_map(t_map *map) //same
-{
-	int		i;
-
-	i = 0;
-	while (map->data[i])
-	{
-		free(map->data[i]);
-		i++;
-	}
-	free(map->data);
-}
-
-void	free_tab(char **tab) //same
+void	free_map(char **tab)
 {
 	int		i;
 
@@ -40,10 +27,10 @@ void	free_tab(char **tab) //same
 
 void	free_mlx(t_map *map, bool type)
 {
-		if (type == 1)
-			mlx_destroy_window(map->connection, map->window);
-		mlx_destroy_display(map->connection);
-		free (map->connection);
+	if (type == 1)
+		mlx_destroy_window(map->connection, map->window);
+	mlx_destroy_display(map->connection);
+	free(map->connection);
 }
 
 void	free_textures(t_map *map, int index)
@@ -54,6 +41,27 @@ void	free_textures(t_map *map, int index)
 	while (++i < index)
 		mlx_destroy_image(map->connection, map->textures[i]);
 	free_mlx(map, 1);
-	free_map(map);
+	free_map(map->data);
 	exit(1);
+}
+
+void	escape_window(int keysym, t_map *map)
+{
+	if (keysym == XK_Escape)
+	{
+		printf("(ESC) END PROGRAM\n");
+		free_textures(map, 5);
+		free_mlx(map, 1);
+		free_map(map->data);
+		exit (1);
+	}
+}
+
+int	close_window(t_map *map)
+{
+	ft_printf("CLOSE WINDOW - END PROGRAM\n");
+	free_textures(map, 5);
+	free_mlx(map, 1);
+	free_map(map->data);
+	exit (1);
 }

@@ -6,7 +6,7 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 14:25:25 by adebert           #+#    #+#             */
-/*   Updated: 2024/04/22 03:41:42 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/22 13:20:14 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "../libft/inc/ft_printf.h"
 # include "../libft/inc/get_next_line.h"
 # include "../minilibx-linux/mlx.h"
+# include <SDL2/SDL.h>
 
 # define WALL_PATH "srcs/textures/WALL.xpm"
 # define GROUND_PATH "srcs/textures/GROUND.xpm"
@@ -52,7 +53,7 @@ typedef struct s_map
 	bool	exit;
 	int		coin;
 	int		img_size;
-	
+
 }	t_map;
 
 int		main(int argc, char **argv);
@@ -68,21 +69,21 @@ bool	check_map(t_map *map);
 bool	check_oblong(char *line, int width);
 bool	check_doubles(char *line, t_map *map);
 bool	check_wall(t_map *map);
-void	parsing(t_map *map, int y, int x, char **tab, int *coin, bool *exit);
+void	parsing(t_map *map, int y, int x, char **tab);
 void	check_path(t_map *map);
 
 //inputs
 int		close_window(t_map *map);
+void	escape_window(int keysym, t_map *map);
 int		handle_inputs(int keysym, t_map *map);
 void	moove_player(t_map *map, int x, int y);
 bool	is_wall_exit(t_map *map, char *c);
 void	end_game(t_map *map, int c);
 
 //free
-void	free_map(t_map *map);
+void	free_map(char **tab);
 void	free_mlx(t_map *map, bool type);
 void	free_textures(t_map *map, int index);
-void	free_tab(char **tab);
 
 //utils
 void	print_map(char **map);

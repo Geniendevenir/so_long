@@ -6,7 +6,7 @@
 /*   By: allan <allan@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 00:41:46 by allan             #+#    #+#             */
-/*   Updated: 2024/04/22 03:30:27 by allan            ###   ########.fr       */
+/*   Updated: 2024/04/22 12:51:42 by allan            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ bool	check_map(t_map *map)
 	map->coin = 0;
 	while (map->data[0][++i])
 		map->width++;
-	if (map->width == map->height || map->width < 4 ||
-		map->height < 4 || map->width > 30 || map->height > 16)
+	if (map->width == map->height || map->width < 4
+		|| map->height < 4 || map->width > 30 || map->height > 16)
 		return (1);
 	i = 0;
 	while (map->data[i])
 	{
-		if (check_oblong(map->data[i], map->width)) //check perfect size
+		if (check_oblong(map->data[i], map->width))
 			return (1);
-		if (check_doubles(map->data[i], map)) //check doubles objects
+		if (check_doubles(map->data[i], map))
 			return (1);
 		i++;
 	}
-	if (check_wall(map)) // check needed and possible walls
+	if (check_wall(map))
 		return (1);
 	if (map->character == 0 || map->exit == 0 || map->coin == 0)
 		return (1);
@@ -46,12 +46,12 @@ bool	check_oblong(char *line, int width)
 	int		i;
 
 	i = 0;
-	while (line[i]) // check dimensions && data
+	while (line[i])
 	{
-		if (line[i] != '0' && line[i] != '1' &&
-				line[i] != 'P' && line[i] != 'C' &&
-				line[i] != 'E' && line[i] != '\n')
-				return (1);
+		if (line[i] != '0' && line[i] != '1'
+			&& line[i] != 'P' && line[i] != 'C'
+			&& line[i] != 'E' && line[i] != '\n')
+			return (1);
 		if (line[i] == '\n' && i != width)
 			return (1);
 		i++;
@@ -66,7 +66,7 @@ bool	check_doubles(char *line, t_map *map)
 	int		i;
 
 	i = 0;
-	while (line[i]) // check dimensions && data
+	while (line[i])
 	{
 		if (line[i] == 'P' && map->character == 1)
 			return (1);
@@ -94,10 +94,10 @@ bool	check_wall(t_map *map)
 	{
 		while (map->data[i][j])
 		{
-			if (map->data[i][0] != '1' || 
-				map->data[i][map->width - 1] != '1')
+			if (map->data[i][0] != '1'
+				|| map->data[i][map->width - 1] != '1')
 				return (1);
-			if ((i == 0 || i == map->height - 1) 
+			if ((i == 0 || i == map->height - 1)
 				&& map->data[i][j] != '1' && map->data[i][j] != '\n')
 				return (1);
 			j++;
@@ -107,5 +107,3 @@ bool	check_wall(t_map *map)
 	}
 	return (0);
 }
-
-
